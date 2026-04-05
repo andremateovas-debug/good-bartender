@@ -3,492 +3,589 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Good Bartender — Preview 0.6</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Good Bartender</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne+Mono&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0a08;
-    --surface: #151009;
-    --amber: #e8a830;
-    --amber-dim: #b07a18;
-    --cream: #f5ead4;
-    --muted: #7a6a52;
-    --red: #c0392b;
-    --green: #27ae60;
-    --border: rgba(232,168,48,0.18);
-    --glow: rgba(232,168,48,0.12);
+    --bg:     #0c0906;
+    --amber:  #d4922a;
+    --cream:  #ede4d0;
+    --muted:  #6b5c42;
+    --faint:  rgba(212,146,42,0.12);
+    --line:   rgba(212,146,42,0.2);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
 
   body {
     background: var(--bg);
     color: var(--cream);
     font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    line-height: 1.7;
-    min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(232,168,48,0.07) 0%, transparent 70%),
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px);
-  }
-
-  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
-
-  /* ── HEADER ── */
-  .header {
-    text-align: center;
-    padding: 40px 0 32px;
-    position: relative;
-  }
-
-  .badge {
-    display: inline-block;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    color: var(--amber);
-    border: 1px solid var(--amber-dim);
-    background: rgba(232,168,48,0.08);
-    padding: 6px 14px;
-    letter-spacing: 0.05em;
-    margin-bottom: 20px;
-    animation: pulse 3s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(232,168,48,0.3); }
-    50% { box-shadow: 0 0 0 6px rgba(232,168,48,0); }
-  }
-
-  .title {
-    font-family: 'Press Start 2P', monospace;
-    font-size: clamp(18px, 4vw, 28px);
-    color: var(--amber);
-    line-height: 1.5;
-    text-shadow: 0 0 40px rgba(232,168,48,0.4);
-    margin-bottom: 8px;
-  }
-
-  .subtitle {
-    font-size: 15px;
-    color: var(--muted);
     font-weight: 300;
-    letter-spacing: 0.04em;
-    margin-bottom: 32px;
-  }
-
-  .tagline {
-    font-size: 17px;
-    color: var(--cream);
-    font-weight: 400;
-    max-width: 520px;
-    margin: 0 auto;
-    opacity: 0.88;
-    font-style: italic;
-  }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 36px 0;
-    position: relative;
-  }
-  .divider::after {
-    content: '🍸';
-    position: absolute;
-    top: -11px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg);
-    padding: 0 10px;
     font-size: 16px;
+    line-height: 1.75;
+    min-height: 100vh;
+    /* Subtle grain texture */
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   }
 
-  /* ── SECTIONS ── */
-  .section { margin-bottom: 36px; }
+  /* ─── LAYOUT ─────────────────────────────────── */
+  .page { max-width: 680px; margin: 0 auto; padding: 0 28px 120px; }
 
-  .section-label {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    color: var(--amber-dim);
-    letter-spacing: 0.12em;
+  /* ─── NAV ────────────────────────────────────── */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 32px 0 0;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 20px;
+    margin-bottom: 0;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.1s forwards;
+  }
+  .nav-studio {
+    font-family: 'Syne Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 14px;
+  }
+  .nav-version {
+    font-family: 'Syne Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.1em;
   }
 
-  .section-title {
-    font-size: 20px;
-    font-weight: 600;
+  /* ─── HERO ───────────────────────────────────── */
+  .hero {
+    padding: 80px 0 64px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.25s forwards;
+  }
+  .hero-eyebrow {
+    font-family: 'Syne Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 12vw, 96px);
+    font-weight: 300;
+    line-height: 0.95;
     color: var(--cream);
+    letter-spacing: -0.01em;
     margin-bottom: 10px;
   }
-
-  .section-body {
-    font-size: 15px;
-    color: rgba(245,234,212,0.78);
+  .hero-title em {
+    font-style: italic;
+    color: var(--amber);
+  }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 3vw, 22px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 40px;
+    line-height: 1.4;
+  }
+  .hero-tagline {
+    font-size: 16px;
+    color: rgba(237,228,208,0.65);
+    max-width: 460px;
     line-height: 1.8;
+    border-left: 2px solid var(--line);
+    padding-left: 18px;
   }
 
-  /* ── PILL LIST ── */
-  .pill-row {
+  /* ─── CTA ────────────────────────────────────── */
+  .cta-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 14px;
+    gap: 12px;
+    margin-top: 44px;
   }
-  .pill {
-    font-size: 13px;
-    padding: 6px 14px;
-    border: 1px solid var(--border);
-    background: var(--glow);
-    color: var(--cream);
-    border-radius: 2px;
-    font-weight: 500;
-  }
-  .pill.amber { border-color: var(--amber); color: var(--amber); background: rgba(232,168,48,0.06); }
-  .pill.green { border-color: rgba(39,174,96,0.5); color: #2ecc71; background: rgba(39,174,96,0.06); }
-  .pill.red   { border-color: rgba(192,57,43,0.5); color: #e74c3c; background: rgba(192,57,43,0.06); }
-
-  /* ── CARD GRID ── */
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 14px;
-    margin-top: 14px;
-  }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 18px 16px;
-    transition: border-color 0.2s;
-  }
-  .card:hover { border-color: var(--amber-dim); }
-
-  .card-icon { font-size: 22px; margin-bottom: 10px; display: block; }
-  .card-name { font-weight: 600; font-size: 14px; color: var(--cream); margin-bottom: 4px; }
-  .card-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
-  /* ── ROADMAP ── */
-  .roadmap { display: flex; flex-direction: column; gap: 0; margin-top: 14px; }
-  .roadmap-item {
-    display: flex;
-    gap: 18px;
-    position: relative;
-    padding-bottom: 24px;
-  }
-  .roadmap-item:last-child { padding-bottom: 0; }
-
-  .roadmap-line {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  .roadmap-dot {
-    width: 12px;
-    height: 12px;
-    border: 2px solid var(--amber);
+  .btn-primary {
+    display: inline-block;
+    font-family: 'Syne Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bg);
     background: var(--amber);
-    flex-shrink: 0;
-    margin-top: 4px;
-  }
-  .roadmap-dot.outline {
-    background: transparent;
-    border-color: var(--muted);
-  }
-  .roadmap-connector {
-    width: 2px;
-    flex: 1;
-    background: var(--border);
-    margin-top: 4px;
-  }
-
-  .roadmap-content { flex: 1; }
-  .roadmap-tag {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    color: var(--amber);
-    letter-spacing: 0.08em;
-    margin-bottom: 6px;
-    display: block;
-  }
-  .roadmap-tag.muted { color: var(--muted); }
-  .roadmap-desc { font-size: 14px; color: rgba(245,234,212,0.75); line-height: 1.7; }
-
-  /* ── LINKS ── */
-  .links { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
-
-  .link-card {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px;
-    border: 1px solid var(--border);
-    background: var(--surface);
+    padding: 14px 28px;
     text-decoration: none;
-    color: var(--cream);
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.82; }
+  .btn-ghost {
+    display: inline-block;
+    font-family: 'Syne Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    border: 1px solid var(--line);
+    padding: 13px 28px;
+    text-decoration: none;
     transition: border-color 0.2s, background 0.2s;
   }
-  .link-card:hover { border-color: var(--amber); background: rgba(232,168,48,0.05); }
-  .link-icon { font-size: 22px; flex-shrink: 0; }
-  .link-info {}
-  .link-name { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
-  .link-sub { font-size: 12px; color: var(--muted); }
+  .btn-ghost:hover { border-color: var(--amber); background: var(--faint); }
 
-  /* ── BETA NOTICE ── */
-  .beta-notice {
-    border: 1px solid rgba(192,57,43,0.35);
-    background: rgba(192,57,43,0.05);
-    padding: 18px 20px;
-    margin-top: 14px;
-    font-size: 14px;
-    color: rgba(245,234,212,0.75);
-    line-height: 1.7;
-  }
-  .beta-notice strong { color: #e74c3c; }
-
-  /* ── SHARE ── */
-  .share-box {
-    border: 1px solid var(--border);
-    background: linear-gradient(135deg, rgba(232,168,48,0.04) 0%, transparent 60%);
-    padding: 28px 24px;
-    text-align: center;
-    margin-top: 14px;
-  }
-  .share-box p { font-size: 15px; color: rgba(245,234,212,0.75); margin-top: 8px; }
-  .share-box em { color: var(--amber); font-style: normal; }
-
-  /* ── COPY BLOCKS ── */
-  .copy-block {
-    background: #0a0806;
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--amber-dim);
-    padding: 16px 18px;
-    font-size: 14px;
-    color: rgba(245,234,212,0.8);
-    line-height: 1.8;
-    margin-top: 12px;
-    position: relative;
-    white-space: pre-wrap;
-    font-family: 'DM Sans', sans-serif;
+  /* ─── DIVIDER ────────────────────────────────── */
+  .sep {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 64px 0;
   }
 
-  .copy-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(232,168,48,0.12);
-    border: 1px solid var(--border);
-    color: var(--amber-dim);
-    font-size: 11px;
-    padding: 4px 10px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: background 0.15s;
+  /* ─── SECTIONS ───────────────────────────────── */
+  .block {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    margin-bottom: 64px;
   }
-  .copy-btn:hover { background: rgba(232,168,48,0.22); }
+  .block.visible { opacity: 1; transform: translateY(0); }
 
-  .platforms-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-  .plat {
-    font-size: 12px;
-    padding: 4px 12px;
-    border: 1px solid var(--border);
+  .label {
+    font-family: 'Syne Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--muted);
-    background: transparent;
+    margin-bottom: 20px;
+  }
+  .label span { color: var(--amber); margin-right: 8px; }
+
+  .heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+  .heading em { font-style: italic; color: var(--amber); }
+
+  .body-text {
+    font-size: 15px;
+    color: rgba(237,228,208,0.68);
+    line-height: 1.85;
+    max-width: 540px;
   }
 
-  @media (max-width: 500px) {
-    .cards { grid-template-columns: 1fr; }
-    .links { grid-template-columns: 1fr; }
+  /* ─── TAG CLOUD ──────────────────────────────── */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+  .tag {
+    font-family: 'Syne Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ─── CONTENT LIST ───────────────────────────── */
+  .content-list { margin-top: 24px; }
+  .content-item {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 16px;
+    align-items: start;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(212,146,42,0.1);
+  }
+  .content-item:first-child { border-top: 1px solid rgba(212,146,42,0.1); }
+  .content-num {
+    font-family: 'Syne Mono', monospace;
+    font-size: 10px;
+    color: var(--amber);
+    padding-top: 3px;
+  }
+  .content-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 3px;
+  }
+  .content-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── ROADMAP ────────────────────────────────── */
+  .timeline { margin-top: 24px; }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(212,146,42,0.1);
+    align-items: start;
+  }
+  .tl-item:first-child { border-top: 1px solid rgba(212,146,42,0.1); }
+  .tl-tag {
+    font-family: 'Syne Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding-top: 3px;
+    line-height: 1.5;
+  }
+  .tl-tag.done { color: var(--amber); }
+  .tl-tag.next { color: var(--cream); opacity: 0.6; }
+  .tl-tag.later { color: var(--muted); }
+  .tl-body { font-size: 13px; color: rgba(237,228,208,0.6); line-height: 1.75; }
+  .tl-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+
+  /* ─── DOWNLOAD LINKS ─────────────────────────── */
+  .dl-row { display: flex; flex-direction: column; gap: 1px; margin-top: 24px; }
+  .dl-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    background: rgba(212,146,42,0.04);
+    border: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--cream);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .dl-link:hover { background: var(--faint); border-color: var(--amber); }
+  .dl-left { display: flex; align-items: center; gap: 16px; }
+  .dl-icon {
+    font-family: 'Syne Mono', monospace;
+    font-size: 10px;
+    color: var(--amber);
+    letter-spacing: 0.06em;
+    width: 52px;
+    text-align: center;
+    border: 1px solid var(--line);
+    padding: 4px 0;
+  }
+  .dl-name { font-size: 15px; font-weight: 400; color: var(--cream); }
+  .dl-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .dl-arrow {
+    font-family: 'Syne Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .dl-link:hover .dl-arrow { color: var(--amber); }
+
+  /* ─── PLATFORMS ──────────────────────────────── */
+  .plat-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
+  .plat {
+    font-family: 'Syne Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid rgba(212,146,42,0.15);
+    color: var(--muted);
+  }
+  .plat.active { border-color: rgba(212,146,42,0.4); color: rgba(237,228,208,0.55); }
+
+  /* ─── NOTICE ─────────────────────────────────── */
+  .notice {
+    border-left: 2px solid rgba(192,57,43,0.5);
+    padding: 16px 20px;
+    background: rgba(192,57,43,0.04);
+    font-size: 13px;
+    color: rgba(237,228,208,0.6);
+    line-height: 1.8;
+    margin-top: 20px;
+  }
+  .notice strong { color: #c05240; }
+
+  /* ─── FOOTER ─────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+  .footer-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .footer-sub {
+    font-family: 'Syne Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .footer-right { text-align: right; }
+  .footer-right a {
+    font-family: 'Syne Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 6px;
+    transition: color 0.2s;
+  }
+  .footer-right a:hover { color: var(--amber); }
+
+  /* ─── ANIMATIONS ─────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── RESPONSIVE ─────────────────────────────── */
+  @media (max-width: 540px) {
+    .hero-title { font-size: 56px; }
+    .tl-item { grid-template-columns: 1fr; gap: 6px; }
+    .tl-tag { padding-top: 0; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .footer-right { text-align: left; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="page">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="badge">▸ PREVIEW 0.6</div>
-    <div class="title">Good Bartender</div>
-    <div class="subtitle">by AM Devs — Indie Game Studio</div>
-    <p class="tagline">
-      Mezcla cócteles, lee a tus clientes y mantén el bar con vida —<br>un pedido a la vez.
+  <!-- NAV -->
+  <nav>
+    <span class="nav-studio">AM Devs</span>
+    <span class="nav-version">Preview 0.6</span>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Videojuego · Indie</div>
+    <h1 class="hero-title">Good<br><em>Bartender</em></h1>
+    <p class="hero-sub">Un bar, tus clientes, sus secretos.</p>
+    <p class="hero-tagline">
+      Mezcla cócteles, lee a tus clientes y mantén el bar con vida —
+      un pedido a la vez.
     </p>
+    <div class="cta-row">
+      <a class="btn-primary" href="https://matunjo.itch.io/good-bartender" target="_blank">Jugar gratis</a>
+      <a class="btn-ghost" href="#descarga">Ver descargas</a>
+    </div>
   </div>
 
-  <hr class="divider">
+  <hr class="sep">
 
   <!-- QUÉ ES -->
-  <div class="section">
-    <div class="section-label">El juego</div>
-    <div class="section-title">Un bar, tus clientes, sus secretos.</div>
-    <div class="section-body">
-      Cada persona que entra por esa puerta tiene un humor, un secreto y una bebida en mente. Tú decides cómo atenderla. Good Bartender es un juego de simulación/puzle con narrativa visual: preparas cócteles reales siguiendo recetas, escuchas a tus clientes y mantienes el bar en pie — una noche a la vez.
-    </div>
-    <div class="pill-row">
-      <span class="pill">🍹 Recetas reales</span>
-      <span class="pill">💬 Visual novel</span>
-      <span class="pill">🎮 Pixel art</span>
-      <span class="pill">🎵 Ambiente chill</span>
-      <span class="pill">📱 Móvil + PC</span>
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <!-- LO QUE INCLUYE -->
-  <div class="section">
-    <div class="section-label">Contenido actual — Preview 0.6</div>
-    <div class="section-title">¿Qué tiene esta versión?</div>
-    <div class="cards">
-      <div class="card">
-        <span class="card-icon">📖</span>
-        <div class="card-name">Episodio 1</div>
-        <div class="card-desc">Un tutorial narrativo completo que te introduce al bar, los clientes y las mecánicas de preparación.</div>
-      </div>
-      <div class="card">
-        <span class="card-icon">🎲</span>
-        <div class="card-name">Modo Libre</div>
-        <div class="card-desc">Combos aleatorios de NPCs y bebidas para practicar sin presión y pasar el rato detrás de la barra.</div>
-      </div>
-      <div class="card">
-        <span class="card-icon">🧑‍🤝‍🧑</span>
-        <div class="card-name">NPCs únicos</div>
-        <div class="card-desc">Personajes con personalidad, historias propias y bebidas favoritas. Cada visita es diferente.</div>
-      </div>
-      <div class="card">
-        <span class="card-icon">💾</span>
-        <div class="card-name">Sistema de guardado</div>
-        <div class="card-desc">3 ranuras de guardado independientes y progreso persistente entre sesiones.</div>
-      </div>
+  <div class="block">
+    <div class="label"><span>01</span>El juego</div>
+    <h2 class="heading">Simulación · Narrativa · <em>Puzzles</em></h2>
+    <p class="body-text">
+      Cada persona que entra por esa puerta tiene un humor, un secreto y una bebida en mente.
+      Tú decides cómo atenderla. Prepara cócteles reales siguiendo recetas, escucha a tus clientes
+      y mantén el bar en pie — una noche a la vez.
+    </p>
+    <div class="tags">
+      <span class="tag">Recetas reales</span>
+      <span class="tag">Visual novel</span>
+      <span class="tag">Pixel art</span>
+      <span class="tag">Ambiente chill</span>
+      <span class="tag">Móvil + PC</span>
     </div>
   </div>
 
-  <hr class="divider">
+  <!-- CONTENIDO -->
+  <div class="block">
+    <div class="label"><span>02</span>Contenido — Preview 0.6</div>
+    <h2 class="heading">¿Qué tiene esta versión?</h2>
+    <div class="content-list">
+      <div class="content-item">
+        <span class="content-num">—</span>
+        <div>
+          <div class="content-name">Episodio 1</div>
+          <div class="content-desc">Tutorial narrativo completo. Te introduce al bar, los clientes y las mecánicas de preparación.</div>
+        </div>
+      </div>
+      <div class="content-item">
+        <span class="content-num">—</span>
+        <div>
+          <div class="content-name">Modo Libre</div>
+          <div class="content-desc">Combos aleatorios de NPCs y bebidas. Practica sin presión y pasa el rato detrás de la barra.</div>
+        </div>
+      </div>
+      <div class="content-item">
+        <span class="content-num">—</span>
+        <div>
+          <div class="content-name">4 NPCs únicos</div>
+          <div class="content-desc">Eduardo, Juan, Valentina y Mairim — personalidad, historias propias y bebida favorita.</div>
+        </div>
+      </div>
+      <div class="content-item">
+        <span class="content-num">—</span>
+        <div>
+          <div class="content-name">Sistema de guardado</div>
+          <div class="content-desc">3 ranuras independientes y progreso persistente entre sesiones.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ROADMAP -->
-  <div class="section">
-    <div class="section-label">Roadmap</div>
-    <div class="section-title">Lo que viene</div>
-    <div class="roadmap">
+  <div class="block">
+    <div class="label"><span>03</span>Roadmap</div>
+    <h2 class="heading">Lo que viene</h2>
+    <div class="timeline">
 
-      <div class="roadmap-item">
-        <div class="roadmap-line">
-          <div class="roadmap-dot"></div>
-          <div class="roadmap-connector"></div>
-        </div>
-        <div class="roadmap-content">
-          <span class="roadmap-tag">✓ DISPONIBLE — Preview 0.6</span>
-          <div class="roadmap-desc">Episodio 1 completo · Modo Libre con 12 combos · Sistema de guardado (3 ranuras) · Menú de pausa · Tutorial · Panel de pistas · Nombre del jugador persistente · Música con fade-in/out · 4 NPCs con Dialogic completo.</div>
+      <div class="tl-item">
+        <div class="tl-tag done">✓ Disponible<br>Preview 0.6</div>
+        <div>
+          <div class="tl-title">Estado actual</div>
+          <div class="tl-body">
+            Ep. 1 completo · Modo Libre · Sistema de guardado · Menú de pausa ·
+            Tutorial · Panel de pistas · Nombre persistente · Música con fade · 4 NPCs con Dialogic.
+          </div>
         </div>
       </div>
 
-      <div class="roadmap-item">
-        <div class="roadmap-line">
-          <div class="roadmap-dot outline"></div>
-          <div class="roadmap-connector"></div>
-        </div>
-        <div class="roadmap-content">
-          <span class="roadmap-tag muted">PRÓXIMO — Preview 0.7 (última preview)</span>
-          <div class="roadmap-desc">Arte final reescalado y rediseñado en todos los assets · Mecánica de agitar la coctelera (desliza en círculos en móvil / ratón en PC) · Revolver bebidas cuando aplica · Esta será la versión más tardada por el rediseño completo de arte.</div>
-        </div>
-      </div>
-
-      <div class="roadmap-item">
-        <div class="roadmap-line">
-          <div class="roadmap-dot outline"></div>
-          <div class="roadmap-connector"></div>
-        </div>
-        <div class="roadmap-content">
-          <span class="roadmap-tag muted">FUTURO — Beta Abierta (todas las tiendas)</span>
-          <div class="roadmap-desc">Lanzamiento oficial en itch.io · Steam · Play Store · App Store · Más episodios, diálogos y contenido narrativo · Personalización de tu bar · Sistema de mejoras y compras.</div>
+      <div class="tl-item">
+        <div class="tl-tag next">Preview 0.7<br>(última preview)</div>
+        <div>
+          <div class="tl-title">Arte final + mecánicas nuevas</div>
+          <div class="tl-body">
+            Arte reescalado y rediseñado en todos los assets · Mecánica de agitar la coctelera
+            (círculos en móvil / ratón en PC) · Revolver cuando aplica.
+            Esta será la versión más tardada por el rediseño completo de arte.
+          </div>
         </div>
       </div>
 
-      <div class="roadmap-item">
-        <div class="roadmap-line">
-          <div class="roadmap-dot outline"></div>
+      <div class="tl-item">
+        <div class="tl-tag later">Beta Abierta</div>
+        <div>
+          <div class="tl-title">Lanzamiento en todas las tiendas</div>
+          <div class="tl-body">
+            itch.io · Steam · Play Store · App Store · Más episodios, diálogos y contenido narrativo ·
+            Personalización del bar · Sistema de mejoras.
+          </div>
         </div>
-        <div class="roadmap-content">
-          <span class="roadmap-tag muted">A LARGO PLAZO</span>
-          <div class="roadmap-desc">Actualizaciones con nuevos capítulos y personajes · Expansiones de historia · Contenido de temporada · Tu feedback decide qué llega primero.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-tag later">A largo plazo</div>
+        <div>
+          <div class="tl-title">Expansiones</div>
+          <div class="tl-body">
+            Nuevos capítulos y personajes · Expansiones de historia · Contenido de temporada ·
+            Tu feedback decide qué llega primero.
+          </div>
         </div>
       </div>
 
     </div>
   </div>
-
-  <hr class="divider">
 
   <!-- DESCARGA -->
-  <div class="section">
-    <div class="section-label">Descarga gratis</div>
-    <div class="section-title">Pruébalo ahora</div>
-    <div class="section-body">
-      Disponible gratis en PC y Android. Descarga el <strong>.exe</strong> (Windows) o el <strong>.apk</strong> (Android) desde itch.io o directamente desde Drive — asegúrate de bajar la versión <strong>0.6</strong>.
-    </div>
-    <div class="links">
-      <a class="link-card" href="https://matunjo.itch.io/good-bartender" target="_blank">
-        <span class="link-icon">🎮</span>
-        <div class="link-info">
-          <div class="link-name">itch.io</div>
-          <div class="link-sub">PC (Windows) + Android (.apk)</div>
+  <div class="block" id="descarga">
+    <div class="label"><span>04</span>Descarga gratis</div>
+    <h2 class="heading">Pruébalo ahora</h2>
+    <p class="body-text">
+      Disponible gratis en PC (Windows) y Android. Descarga el <strong style="color:var(--cream);font-weight:400">.exe</strong>
+      o el <strong style="color:var(--cream);font-weight:400">.apk</strong> desde itch.io o directamente desde Drive.
+    </p>
+    <div class="dl-row">
+      <a class="dl-link" href="https://matunjo.itch.io/good-bartender" target="_blank">
+        <div class="dl-left">
+          <span class="dl-icon">itch.io</span>
+          <div>
+            <div class="dl-name">itch.io</div>
+            <div class="dl-sub">PC (Windows) + Android (.apk)</div>
+          </div>
         </div>
+        <span class="dl-arrow">↗</span>
       </a>
-      <a class="link-card" href="https://drive.google.com/drive/folders/1jwE9XRgvRQt14JvLJ9YK_6VQXrTPLUnh?usp=sharing" target="_blank">
-        <span class="link-icon">📁</span>
-        <div class="link-info">
-          <div class="link-name">Google Drive</div>
-          <div class="link-sub">Descarga directa — versión 0.6</div>
+      <a class="dl-link" href="https://drive.google.com/drive/folders/1jwE9XRgvRQt14JvLJ9YK_6VQXrTPLUnh?usp=sharing" target="_blank">
+        <div class="dl-left">
+          <span class="dl-icon">Drive</span>
+          <div>
+            <div class="dl-name">Google Drive</div>
+            <div class="dl-sub">Descarga directa — versión 0.6</div>
+          </div>
         </div>
+        <span class="dl-arrow">↗</span>
       </a>
     </div>
-    <div class="platforms-row" style="margin-top:16px;">
-      <span class="plat">🖥️ PC — itch.io</span>
-      <span class="plat">📱 Android — itch.io / Drive</span>
-      <span class="plat">🎮 Steam — Próximamente</span>
-      <span class="plat">🍎 App Store — Próximamente</span>
-      <span class="plat">🤖 Play Store — Próximamente</span>
+    <div class="plat-row">
+      <span class="plat active">PC — itch.io</span>
+      <span class="plat active">Android — itch.io / Drive</span>
+      <span class="plat">Steam — pronto</span>
+      <span class="plat">App Store — pronto</span>
+      <span class="plat">Play Store — pronto</span>
     </div>
   </div>
 
-  <hr class="divider">
-
-  <!-- AVISO BETA -->
-  <div class="section">
-    <div class="section-label">Estado del proyecto</div>
-    <div class="section-title">Beta Preview — En desarrollo activo</div>
-    <div class="beta-notice">
-      <strong>⚠ Esto es una preview.</strong> El contenido, las mecánicas y el balance pueden cambiar entre versiones. Puede haber bugs, arte provisional y mecánicas incompletas — todo esto es parte del proceso. <strong>Tu feedback le da forma al juego final.</strong> Si encuentras algo raro, cuéntanos.
+  <!-- AVISO -->
+  <div class="block">
+    <div class="label"><span>05</span>Estado del proyecto</div>
+    <h2 class="heading">Preview en desarrollo activo</h2>
+    <div class="notice">
+      <strong>⚠ Esto es una preview.</strong> El contenido, las mecánicas y el balance pueden cambiar entre versiones.
+      Puede haber bugs, arte provisional y mecánicas incompletas — todo esto es parte del proceso.
+      <strong>Tu feedback le da forma al juego final.</strong>
     </div>
   </div>
 
-  <hr class="divider">
+  <hr class="sep">
 
-  <!-- SHARE -->
-  <div class="section">
-    <div class="share-box">
-      <div style="font-size:28px;">🥂</div>
-      <div class="section-title" style="margin-top:12px; margin-bottom:0;">¿Te gustó? Compártelo.</div>
-      <p>En serio. Hazlo. <em>Dale el link a alguien que lo jugaría a las 2am.</em><br>Cada descarga, reseña o comentario ayuda más de lo que parece.</p>
-      <a href="https://matunjo.itch.io/good-bartender" target="_blank" style="display:inline-block; margin-top:18px; background: rgba(232,168,48,0.12); border: 1px solid var(--amber); color: var(--amber); font-family: 'Press Start 2P', monospace; font-size: 9px; padding: 12px 22px; text-decoration:none; letter-spacing:0.06em; transition: background 0.2s;">
-        ▸ JUGAR AHORA — GRATIS
-      </a>
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-title">Good Bartender</div>
+      <div class="footer-sub">© AM Devs · 2026–2027</div>
     </div>
-  </div>
+    <div class="footer-right">
+      <a href="https://matunjo.itch.io/good-bartender" target="_blank">Jugar en itch.io ↗</a>
+      <a href="https://drive.google.com/drive/folders/1jwE9XRgvRQt14JvLJ9YK_6VQXrTPLUnh?usp=sharing" target="_blank">Google Drive ↗</a>
+    </div>
+  </footer>
 
 </div>
 
 <script>
-  function copy(id, btn) {
-    const text = document.getElementById(id).innerText.replace(/^Copiar$/m, '').trim();
-    navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = '✓ Copiado';
-      setTimeout(() => btn.textContent = 'Copiar', 2000);
-    });
-  }
+  // Scroll-triggered fade-in
+  const blocks = document.querySelectorAll('.block');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  blocks.forEach(b => io.observe(b));
 </script>
 </body>
 </html>
